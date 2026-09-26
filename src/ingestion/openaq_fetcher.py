@@ -37,4 +37,4 @@ class OpenAQFetcher:
         return results
     
     def fetch_sensor_details(self, sensor_id,):
-        "promt : Si, voy a armar esa función para tenerla ahi en caso de querer usarla, total no cree nada en supabase, y luego seguiríamos con supabase loader no?"
+        int
