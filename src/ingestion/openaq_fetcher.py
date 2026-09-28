@@ -15,14 +15,11 @@ class OpenAQFetcher:
     def fetch_sensor_measurements(self, sensor_id: int, data : str, date_from : str, date_to : str, limit=1000) -> list[dict]:
         """Descarga mediciones de un sensor dentro de un rago de timepo especificado."""
         
-        datetime_from = datetime.fromisoformat(date_from)
-        datetime_to = datetime.fromisoformat(date_to)
-        
         response = self.client.measurements.list(
             sensors_id=sensor_id,
             data=data,
-            datetime_from=datetime_from,
-            datetime_to=datetime_to,
+            datetime_from=date_from,
+            datetime_to=date_to,
             limit=limit
             )
         
