@@ -40,4 +40,29 @@ def filldb(start : datetime, end : datetime, step,  sensor_id : int, data : str 
     
     print("Backfill completado!")
 
-#filldb(START_DATE,END_DATE,STEPS,7696815,"hours")
+def backfill_sensor(sensor_id: int, start: datetime, end: datetime, step: timedelta, data: str = "hours"):
+    """Sincroniza la dimensión del sensor y descarga todo su histórico de mediciones."""
+    print(f"\n==========================================")
+    print(f"Iniciando proceso para sensor: {sensor_id}")
+    print(f"==========================================")
+    
+    # 1. Asegurar integridad (Metadata)
+    metadata = fetcher.fetch_sensor_details(sensor_id)
+    loader.upsert_sensor_metadata(metadata)
+    print(f"Sensor registrado: {metadata.get('parameter')} ({metadata.get('units')})")
+    
+    # 2. Ingesta de mediciones
+    filldb(start=start, end=end, step=step, sensor_id=sensor_id, data=data)
+
+TARGET_SENSORS = [
+    7696815, #PM2.5
+    8562542, #PM10
+    8562534 #PM1
+]
+
+if __name__ == '__main__':
+    for s_id in TARGET_SENSORS:
+        backfill_sensor(sensor_id=s_id,
+                        start=START_DATE,
+                        end=END_DATE,
+                        step=STEPS)
