@@ -12,17 +12,14 @@ class OpenAQFetcher:
       self.api_key = openaq_apikey or OPENAQ_API_KEY
       self.client = OpenAQ(api_key=self.api_key)
 
-    def fetch_sensor_measurements(self, sensor_id: int, data : str, date_from : datetime, date_to : datetime, limit=1000) -> list[dict]:
+    def fetch_sensor_measurements(self, sensor_id: int, data : str, date_from : str, date_to : str, limit=1000) -> list[dict]:
         """Descarga mediciones de un sensor dentro de un rago de timepo especificado."""
-        
-        datetime_from = datetime.fromisoformat(date_from)
-        datetime_to = datetime.fromisoformat(date_to)
         
         response = self.client.measurements.list(
             sensors_id=sensor_id,
             data=data,
-            datetime_from=datetime_from,
-            datetime_to=datetime_to,
+            datetime_from=date_from,
+            datetime_to=date_to,
             limit=limit
             )
         
@@ -36,5 +33,20 @@ class OpenAQFetcher:
 
         return results
     
-    def fetch_sensor_details(self, sensor_id,):
-        int
+    def fetch_sensor_details(self, sensor_id: int) -> dict:
+        """Obtiene metadatos fijos del sensor (coordenadas, parámetro, etc.)."""
+        response = self.client.sensors.get(sensors_id=sensor_id)
+        
+        if not response.results:
+            raise ValueError(f"No se encontro resultado para el sensor {sensor_id}")
+        
+        sensor_data = response.results[0]
+        
+        return {
+            "sensor_id": sensor_id,
+            "parameter": sensor_data.name,
+            "units": sensor_data.parameter.units,
+            "latitude": sensor_data.latest.coordinates.latitude,
+            "longitude": sensor_data.latest.coordinates.longitude,
+        }
+        
