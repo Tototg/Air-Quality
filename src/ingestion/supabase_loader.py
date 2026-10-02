@@ -36,3 +36,17 @@ class SupabaseLoader:
             ).execute()
             
         return len(response.data) if response.data else len(data)
+    
+    def upsert_weather(self, data : list[dict], batch_size: int = 1000) -> int:
+        """Funcion para insertar datos del clima (open-meteo) a supabase."""
+        if not data:
+            return 0
+        
+        total_inserted = 0
+        for i in range(0,len(data),batch_size):
+            batch = data[i:i+batch_size]
+            response = self.client.table('weather_hourly').upsert(batch,
+                                                                  on_conflict="latitude,longitude,datetime_utc"
+                                                                  ).execute()
+            total_inserted += len(response.data) if response.data else len(batch)
+        return total_inserted
