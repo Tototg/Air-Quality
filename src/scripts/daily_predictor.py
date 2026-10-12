@@ -31,7 +31,8 @@ def extract_data(start_datetime, end_datetime, aq_fetcher : OpenAQFetcher, meteo
     aq_df = pd.DataFrame(aq_raw)
     
     if aq_df.empty:
-        raise ValueError(f"OpenAQ no devolvió mediciones para el sensor {sensor_id} en las últimas 48hs.")
+        print(f"El sensor {sensor_id} no reportó datos. Abortando ejecución silenciosamente.")
+        sys.exit(0)
     if 'value' in aq_df.columns:
         aq_df = aq_df.rename(columns={'value': 'pm25_value'})
     
@@ -42,8 +43,8 @@ def extract_data(start_datetime, end_datetime, aq_fetcher : OpenAQFetcher, meteo
     meteo_df = pd.DataFrame(meteo_raw)
     
     if meteo_df.empty:
-        raise ValueError(f"Open-Meteo no devolvió datos para las coordenadas {lat}, {long}.")
-        
+        print(f"Open meteo no reportó datos. Abortando ejecución silenciosamente.")
+        sys.exit(0)
     aq_df['datetime_utc'] = pd.to_datetime(aq_df["datetime_utc"], utc=True)
     meteo_df['datetime_utc'] = pd.to_datetime(meteo_df["datetime_utc"], utc=True)
     
@@ -108,13 +109,14 @@ if __name__ == "__main__":
     SENSOR_ID = 7696815 # ID de La Matanza
     LATITUDE = -34.6703
     LONGITUDE = -58.5628
+    DAYS_WINDOW = 7
 
     aq_fetcher = OpenAQFetcher()
     meteo_fetcher = MeteoFetcher()
     supabase_loader = SupabaseLoader()
     
     today_utc = datetime.now(timezone.utc)
-    two_days_before = today_utc - timedelta(days=2)    
+    two_days_before = today_utc - timedelta(days=DAYS_WINDOW)    
    
     print("Extrayendo datos de OpenAQ y Open-Meteo...")
     aq_df, meteo_df = extract_data(
@@ -146,7 +148,7 @@ if __name__ == "__main__":
     
     if df_transformed.empty:
         print("El dataframe resultante está vacío tras la purga de nulos. Abortando ejecución.")
-        exit(1)
+        sys.exit(0)
         
     print("Cargando modelo exportado y generando predicciones...")
     script_dir = os.path.dirname(os.path.abspath(__file__))
