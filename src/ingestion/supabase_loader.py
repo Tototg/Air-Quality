@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import os
+import pandas as pd
 
 load_dotenv()
 
@@ -50,3 +51,20 @@ class SupabaseLoader:
                                                                   ).execute()
             total_inserted += len(response.data) if response.data else len(batch)
         return total_inserted
+    
+    def upsert_predictions(self, data : pd.DataFrame, sensor_id):
+      """Recibe dataframe de predicciones finales y las inserta en supabase"""
+      df_clean = data.reset_index()
+      
+      df_clean['prediction_datetime'] = df_clean['datetime_local'].dt.tz_convert("UTC").dt.strftime('%Y-%m-%dT%H:%M:%S%z')
+      
+      # Escalabilidad
+      df_clean["sensor_id"] = sensor_id
+      
+      df_final = df_clean[['sensor_id', 'prediction_datetime', 'predicted_aqi_class']]
+      
+      records = df_final.to_dict(orient='records')
+    
+      response = self.client.table('predictions').upsert(records).execute()
+      
+      return len(response.data) if response.data else 0
