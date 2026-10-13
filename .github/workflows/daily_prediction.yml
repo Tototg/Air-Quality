@@ -3,7 +3,7 @@ name: Daily AQI Prediction
 on:
   schedule:
     # Se ejecuta todos los días a las 09:00 UTC (06:00 AM Argentina)
-    - cron: '0 9 * * *'
+    - cron: '33 11 * * *'
   workflow_dispatch:
 
 jobs:
