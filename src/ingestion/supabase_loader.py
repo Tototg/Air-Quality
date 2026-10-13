@@ -65,6 +65,6 @@ class SupabaseLoader:
       
       records = df_final.to_dict(orient='records')
     
-      response = self.client.table('predictions').upsert(records).execute()
+      response = self.client.table('predictions').upsert(records, on_conflict="sensor_id,prediction_datetime").execute()
       
       return len(response.data) if response.data else 0
