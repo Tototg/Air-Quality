@@ -18,6 +18,7 @@
 
 
 </p>
+
 ## Overview
 
 Air Quality Predictor is an end-to-end data science project that combines air pollution measurements and meteorological data to estimate air quality categories over the previous 24 hours.
@@ -33,7 +34,7 @@ and data storage to feature engineering and model evaluation.
 
 <p align="center">
   <img
-    src="assets/air-pipeline.png"
+    src="assets/Air-pipeline.png"
     alt="Air Quality Predictor nowcasting architecture"
     width="100%"
   />
@@ -48,12 +49,13 @@ The project follows a data pipeline that collects and integrates environmental o
   &nbsp;&nbsp;
   <img src="assets/tech-stack/scikit-learn.png" height="45" alt="scikit-learn" />
   &nbsp;&nbsp;
-  <img src="assets/tech-stack/pandas.png" height="45" alt="Pandas" />
+  <img src="assets/tech-stack/Pandas.png" height="45" alt="Pandas" />
   &nbsp;&nbsp;
   <img src="assets/tech-stack/PostgresSQL.png" height="45" alt="PostgreSQL" />
   &nbsp;&nbsp;
   <img src="assets/tech-stack/Jupyter.png" height="45" alt="Jupyter" />
 </p>
+
 ## Methodology
 
 - **Data collection:** Retrieve air quality and meteorological observations from public APIs.
@@ -102,7 +104,7 @@ These results help identify which environmental variables are most relevant to t
   />
 </p>
 
-#### Environmental Insights
+### Environmental Insights
 
 Exploratory data analysis also provided insights into the relationship between meteorological conditions and PM2.5 concentrations.
 
