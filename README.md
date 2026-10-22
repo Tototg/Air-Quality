@@ -55,7 +55,7 @@ The project follows a data pipeline that collects and integrates environmental o
   &nbsp;&nbsp;
   <img src="assets/tech-stack/Jupyter.png" height="45" alt="Jupyter" />
   &nbsp;&nbsp;
-  <img src="assets/tech-stack/Power-BI.png" height="45" alt="Power BI" />
+  <img src="assets/tech-stack/Powerbi.png" height="45" alt="Power BI" />
   &nbsp;&nbsp;
 </p>
 
