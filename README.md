@@ -54,6 +54,9 @@ The project follows a data pipeline that collects and integrates environmental o
   <img src="assets/tech-stack/PostgresSQL.png" height="45" alt="PostgreSQL" />
   &nbsp;&nbsp;
   <img src="assets/tech-stack/Jupyter.png" height="45" alt="Jupyter" />
+  &nbsp;&nbsp;
+  <img src="assets/tech-stack/Power-BI.png" height="45" alt="Power BI" />
+  &nbsp;&nbsp;
 </p>
 
 ## Methodology
